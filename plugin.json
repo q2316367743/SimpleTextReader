@@ -1,0 +1,49 @@
+{
+    "preload": "preload.js",
+    "main": "index.html",
+    "logo": "images/icon.png",
+    "platform": [
+        "win32",
+        "darwin",
+        "linux"
+    ],
+    "pluginSetting": {
+        "single": true,
+        "height": 0
+    },
+    "features": [
+        {
+            "code": "application",
+            "explain": "易笺",
+            "icon": "images/icon.png",
+            "platform": [
+                "win32",
+                "darwin",
+                "linux"
+            ],
+            "cmds": [
+                "易笺"
+            ]
+        },
+        {
+            "code": "file",
+            "explain": "易笺",
+            "icon": "images/icon.png",
+            "platform": [
+                "win32",
+                "darwin",
+                "linux"
+            ],
+            "cmds": [
+                {
+                    "type": "files",
+                    "label": "打开TXT",
+                    "fileType": "file",
+                    "match": "/^.{1,}\\.txt/",
+                    "minLength": 1,
+                    "maxLength": 1
+                }
+            ]
+        }
+    ]
+}

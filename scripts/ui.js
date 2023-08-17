@@ -9,7 +9,7 @@ if (isVariableDefined(dropZone)) {
     dropZone.addEventListener("dblclick", openFileSelector, false);
 }
 if (isVariableDefined(darkModeToggle)) {
-    // localStorage.removeItem("UIMode");
+    // utools.dbStorage.removeItem("UIMode");
     darkModeToggle.addEventListener("change", (e) => {
         setUIMode(!e.target.checked);
     });

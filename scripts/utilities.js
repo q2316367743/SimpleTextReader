@@ -1,15 +1,15 @@
 function setHistory(filename, lineNumber) {
     // console.log("History set to line: ", lineNumber);
-    localStorage.setItem(filename, lineNumber);
+    utools.dbStorage.setItem(filename, lineNumber);
     if (lineNumber === 0) {
         // Don't save history if line number is 0
-        localStorage.removeItem(filename);
+        utools.dbStorage.removeItem(filename);
     }
 }
 
 function getHistory(filename) {
-    if (localStorage.getItem(filename)) {
-        let tempLine = localStorage.getItem(filename);
+    if (utools.dbStorage.getItem(filename)) {
+        let tempLine = utools.dbStorage.getItem(filename);
         try {
             tempLine = parseInt(tempLine) || 0;
         } catch (error) {
@@ -26,7 +26,8 @@ function getHistory(filename) {
 }
 
 function removeAllHistory() {
-    localStorage.clear();
+    // utools.dbStorage.clear();
+    console.error('utools不支持清空')
 }
 
 // Credit: https://stackoverflow.com/questions/46382109/limit-the-number-of-visible-pages-in-pagination
@@ -40,12 +41,12 @@ function getPageList(totalPages, page, maxLength) {
     if (maxLength < 5) throw "maxLength must be at least 5";
 
     function range(start, end) {
-        return Array.from(Array(end - start + 1), (_, i) => i + start); 
+        return Array.from(Array(end - start + 1), (_, i) => i + start);
     }
 
     var sideWidth = maxLength < 9 ? 1 : 2;
-    var leftWidth = (maxLength - sideWidth*2 - 3) >> 1;
-    var rightWidth = (maxLength - sideWidth*2 - 2) >> 1;
+    var leftWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+    var rightWidth = (maxLength - sideWidth * 2 - 2) >> 1;
     if (totalPages <= maxLength) {
         // no breaks in list
         return range(1, totalPages);
@@ -63,7 +64,7 @@ function getPageList(totalPages, page, maxLength) {
     // Breaks on both sides
     return range(1, sideWidth)
         .concat(0, range(page - leftWidth, page + rightWidth),
-                0, range(totalPages - sideWidth + 1, totalPages));
+            0, range(totalPages - sideWidth + 1, totalPages));
 }
 
 // Credit: https://www.javascripttutorial.net/dom/css/check-if-an-element-is-visible-in-the-viewport/
@@ -79,7 +80,7 @@ function isInViewport(el) {
     }
 }
 
-function isInContainerViewport(container, el, margin=0) {
+function isInContainerViewport(container, el, margin = 0) {
     try {
         const containerRect = container.getBoundingClientRect();
         const rect = el.getBoundingClientRect();
@@ -93,7 +94,7 @@ function isInContainerViewport(container, el, margin=0) {
 }
 
 // Credit: https://stackoverflow.com/questions/10463518/converting-em-to-px-in-javascript-and-getting-default-font-size
-function getSize(size='1em', parent=document.body) {
+function getSize(size = '1em', parent = document.body) {
     let l = document.createElement('div');
     l.style.visibility = 'hidden';
     l.style.boxSize = 'content-box';
@@ -106,7 +107,7 @@ function getSize(size='1em', parent=document.body) {
     return size;
 }
 
-function getSizePrecise(size='1em', parent=document.body) {
+function getSizePrecise(size = '1em', parent = document.body) {
     if (isVariableDefined(parent)) {
         let l = document.createElement('div'), i = 1, s, t;
         l.style.visibility = 'hidden';
@@ -124,7 +125,7 @@ function getSizePrecise(size='1em', parent=document.body) {
             i *= 10;
             l.style.height = `calc(${i}*${size})`;
             t = l.clientHeight;
-        } while(t !== s * 10);
+        } while (t !== s * 10);
         l.remove();
         return t / i;
     } else {
@@ -148,13 +149,13 @@ function createElementFromHTML(htmlString) {
 
 function setUIMode(mode) {
     console.log(`UI mode set to ${(mode ? "light" : "dark")}.`);
-    localStorage.setItem("UIMode", mode);
+    utools.dbStorage.setItem("UIMode", mode);
     document.documentElement.setAttribute("data-theme", (mode ? "light" : "dark"));
 }
 
 function getUIMode() {
-    if (isVariableDefined(localStorage.getItem("UIMode"))) {
-        let mode = JSON.parse(localStorage.getItem("UIMode"));
+    if (isVariableDefined(utools.dbStorage.getItem("UIMode"))) {
+        let mode = JSON.parse(utools.dbStorage.getItem("UIMode"));
         console.log(`UI mode is ${(mode ? "light" : "dark")}.`);
         return mode;
     } else {
